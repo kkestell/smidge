@@ -3,8 +3,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from src.recipes import parse_recipe, Recipe
-from src.recipes.rendering import recipe_to_typst
+from src.smidge import parse_recipe, Recipe
+from src.smidge.rendering import recipe_to_typst
 
 
 def build_pdf(typst_code: str, output_path: Path, image_path=None):
@@ -39,7 +39,7 @@ def pdf_command(args: argparse.Namespace):
     elif len(args.input) == 1:
         output_path = Path(args.input[0]).with_suffix('.pdf')
     else:
-        output_path = Path('recipes.pdf')
+        output_path = Path('smidge.pdf')
 
     typst_code = recipe_to_typst(recipes, title=args.title, subtitle=args.subtitle, image=args.image)
     build_pdf(typst_code, output_path)
@@ -60,7 +60,7 @@ def print_command(args: argparse.Namespace):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='recipes')
+    parser = argparse.ArgumentParser(prog='smidge')
     subparsers = parser.add_subparsers(dest='command', required=True)
 
     pdf_parser = subparsers.add_parser('pdf', help='Convert recipe to PDF')

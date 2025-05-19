@@ -1,4 +1,4 @@
-from src.recipes import parse_recipe
+from src.smidge import parse_recipe
 
 
 def test_form1_simple_recipe():

@@ -1,10 +1,10 @@
-# Recipes
+# Smidge
 
-A Python library and CLI utility that parses structured recipe text with custom markup syntax, supporting recipe components, steps, ingredients, and YAML frontmatter metadata.
+A plain-text file format for structured recipes, a Python library for parsing, and a command-line application for converting them to PDFs.
 
 ## Recipe Format
 
-The Recipes format is a simple, structured way to write recipes in plain text files that's easy to read and write.
+The Smidge format is a simple, structured way to write recipes in plain text files that's easy to read and write.
 
 ### Two Forms
 
@@ -33,21 +33,17 @@ In the second form, you include ingredients within the instructions as they're n
 = Classic Brownies
 
 # Melt and mix
-
   - 1 cup butter
   - 2 cups sugar
-
 # Beat in one at a time
-
   - 4 eggs
-
 # Fold in dry ingredients
-
   - 3/4 cup cocoa powder
   - 1 cup flour
-
 # Bake 25 minutes at 350 °F
 ```
+
+The parser recognizes ingredients nested under steps when they're indented exactly 2 spaces.
 
 ### Ingredients
 
@@ -94,12 +90,9 @@ Both forms support multiple components. A plus (`+`) prefix creates named compon
 + Sauce
 
 # Sauté until fragrant
-
   - 3 cloves garlic
   - 1 tbsp olive oil
-  
 # Add and simmer
-
   - 1 can crushed tomatoes
   - 1 tsp oregano
 ```
@@ -122,14 +115,14 @@ Metadata must appear at the very beginning of your recipe file, before the title
 
 ## Python Library
 
-The `recipes` library provides classes and functions for parsing recipe files into structured Python objects.
+The `smidge` library provides classes and functions for parsing recipe files into structured Python objects.
 
 ### parse_recipe()
 
 Parses a recipe from text and returns a `Recipe` object.
 
 ```python
-from recipes import parse_recipe
+from smidge import parse_recipe
 
 recipe_text = """
 ---
@@ -178,9 +171,9 @@ class Recipe:
 ### Example Usage
 
 ```python
-from recipes import parse_recipe
+from smidge import parse_recipe
 
-with open('my_recipe.md', 'r') as f:
+with open('my_recipe.recipe', 'r') as f:
     recipe_text = f.read()
 
 recipe = parse_recipe(recipe_text)
@@ -209,14 +202,14 @@ for component in recipe.components:
 
 ## Command-Line Application
 
-The `recipes` command-line tool provides utilities for working with recipe files.
+The `smidge` command-line tool provides utilities for working with recipe files.
 
 ### Installation
 
-Install the recipes package, then use the `recipes` command:
+Install the smidge package, then use the `smidge` command:
 
 ```bash
-recipes --help
+smidge --help
 ```
 
 ### Converting to PDF
@@ -224,25 +217,25 @@ recipes --help
 Convert a recipe file to a PDF:
 
 ```bash
-recipes pdf banana-bread.md
+smidge pdf banana-bread.md
 ```
 
 Specify a custom output path:
 
 ```bash
-recipes pdf banana-bread.md -o cookbook/banana-bread.pdf
+smidge pdf banana-bread.md -o cookbook/banana-bread.pdf
 ```
 
 Convert multiple recipes into a cookbook with a custom title:
 
 ```bash
-recipes pdf *.recipe -t "Family Recipes"
+smidge pdf *.recipe -t "Family Recipes"
 ```
 
 Add a subtitle and cover image:
 
 ```bash
-recipes pdf *.recipe -t "Holiday Cookbook" -s "December 2024" -i cover.jpg
+smidge pdf *.recipe -t "Holiday Cookbook" -s "December 2024" -i cover.jpg
 ```
 
 ### Printing Recipes
@@ -250,13 +243,13 @@ recipes pdf *.recipe -t "Holiday Cookbook" -s "December 2024" -i cover.jpg
 Send a recipe directly to the printer:
 
 ```bash
-recipes print banana-bread.md
+smidge print banana-bread.md
 ```
 
 Print a cookbook with custom formatting:
 
 ```bash
-recipes print *.recipe -t "Weekend Meals" -s "Quick and Easy" -i food.jpg
+smidge print *.recipe -t "Weekend Meals" -s "Quick and Easy" -i food.jpg
 ```
 
 ### Command Options
